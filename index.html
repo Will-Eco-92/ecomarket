@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>EcoMarket</title>
+
+<style>
+body{
+    font-family: Arial;
+    background:#e6f4ea;
+    padding:20px;
+}
+
+h1{
+    color:#2e7d32;
+}
+
+select, button{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+    font-size:16px;
+}
+
+button{
+    background:#2e7d32;
+    color:white;
+    border:none;
+    border-radius:5px;
+}
+
+#liste{
+    margin-top:20px;
+    background:white;
+    padding:10px;
+    border-radius:8px;
+}
+
+#resultat{
+    margin-top:20px;
+    padding:15px;
+    background:#c8e6c9;
+    border-radius:8px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>EcoMarket 🛒</h1>
+
+<label>Choisir un produit :</label>
+<select id="produit">
+<option value="riz5">Riz (5kg)</option>
+<option value="riz10">Riz (10kg)</option>
+<option value="lait">Boite de lait</option>
+<option value="savon">Savon</option>
+</select>
+
+<button onclick="afficher()">Afficher les prix</button>
+
+<div id="liste"></div>
+
+<button onclick="comparer()">Comparer les prix</button>
+
+<div id="resultat"></div>
+
+<script>
+
+var data = {
+
+riz5:[
+{nom:"San Gel (Oloumi)", prix:5500},
+{nom:"San Gel (Charbonnages)", prix:5300},
+{nom:"Prix Import (Awendjé)", prix:5200},
+{nom:"Prix Import (Carrefour SNI)", prix:5100},
+{nom:"Ckdo (Lalala à droite)", prix:5600},
+{nom:"Ckdo (Carrefour SNI)", prix:5000},
+{nom:"Ckdo (Carrefour Gigi)", prix:5400},
+{nom:"SNI Gel (Owendo)", prix:5050}
+],
+
+riz10:[
+{nom:"San Gel (Oloumi)", prix:10500},
+{nom:"San Gel (Charbonnages)", prix:10300},
+{nom:"Prix Import (Awendjé)", prix:10200},
+{nom:"Prix Import (Carrefour SNI)", prix:10100},
+{nom:"Ckdo (Lalala à droite)", prix:10600},
+{nom:"Ckdo (Carrefour SNI)", prix:10000},
+{nom:"Ckdo (Carrefour Gigi)", prix:10400},
+{nom:"SNI Gel (Owendo)", prix:10150}
+],
+
+lait:[
+{nom:"San Gel (Oloumi)", prix:2500},
+{nom:"San Gel (Charbonnages)", prix:2400},
+{nom:"Prix Import (Awendjé)", prix:2300},
+{nom:"Prix Import (Carrefour SNI)", prix:2200},
+{nom:"Ckdo (Lalala à droite)", prix:2600},
+{nom:"Ckdo (Carrefour SNI)", prix:2100},
+{nom:"Ckdo (Carrefour Gigi)", prix:2350},
+{nom:"SNI Gel (Owendo)", prix:2250}
+],
+
+savon:[
+{nom:"San Gel (Oloumi)", prix:500},
+{nom:"San Gel (Charbonnages)", prix:480},
+{nom:"Prix Import (Awendjé)", prix:450},
+{nom:"Prix Import (Carrefour SNI)", prix:430},
+{nom:"Ckdo (Lalala à droite)", prix:520},
+{nom:"Ckdo (Carrefour SNI)", prix:420},
+{nom:"Ckdo (Carrefour Gigi)", prix:460},
+{nom:"SNI Gel (Owendo)", prix:440}
+]
+
+};
+
+var listeActuelle = [];
+
+function afficher(){
+    var produit = document.getElementById("produit").value;
+    var liste = data[produit];
+
+    listeActuelle = liste;
+
+    var html = "<h3>📊 Prix dans les magasins :</h3>";
+
+    for(var i=0;i<liste.length;i++){
+        html += "🛒 " + liste[i].nom + " : " + liste[i].prix + " FCFA<br>";
+    }
+
+    document.getElementById("liste").innerHTML = html;
+}
+
+function comparer(){
+
+    if(listeActuelle.length == 0){
+        alert("Clique d'abord sur 'Afficher les prix'");
+        return;
+    }
+
+    var tri = listeActuelle.slice();
+
+    tri.sort(function(a,b){
+        return a.prix - b.prix;
+    });
+
+    var meilleur = tri[0];
+    var pire = tri[tri.length-1];
+
+    var texte = "🥇 Moins cher : <b>" + meilleur.nom + "</b> (" + meilleur.prix + " FCFA)<br><br>";
+
+    texte += "📊 Classement du moins cher au plus cher :<br>";
+
+    for(var i=0;i<tri.length;i++){
+        texte += (i+1) + " - " + tri[i].nom + " : " + tri[i].prix + " FCFA<br>";
+    }
+
+    texte += "<br>💸 Plus cher : <b>" + pire.nom + "</b> (" + pire.prix + " FCFA)";
+
+    document.getElementById("resultat").innerHTML = texte;
+}
+
+</script>
+
+</body>
+</html>
